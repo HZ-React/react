@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Route,HashRouter} from 'react-router-dom'
+import {Route,HashRouter,Redirect} from 'react-router-dom'
 import Box from '../pages/Box'
 import Login from '../pages/Login'
 import Root from '../pages/Root'
@@ -19,6 +19,7 @@ class Router extends Component {
         }}>
           
         </Route>
+        <Redirect from="/" to="/login" />
       </HashRouter>
      );
   }
