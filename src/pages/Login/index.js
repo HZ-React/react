@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Input, Button, Checkbox ,message} from 'antd';
+import { Form, Input, Button ,message} from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import {Link} from 'react-router-dom'
 import login from '../../api/login'
@@ -10,7 +10,7 @@ class Login extends Component {
     this.state = {  }
   }
   onFinish=(e)=>{
-    console.log(e)
+    console.log(this.refs.checkbox.checked)
       login(e)
       .then(res=>{
         if(res.code){return message.error('用户名或密码错误')}
@@ -58,9 +58,7 @@ class Login extends Component {
           />
         </Form.Item>
         <Form.Item>
-          <Form.Item name="remember" valuePropName="checked" noStyle>
-            <Checkbox>记住密码</Checkbox>
-          </Form.Item>
+          <input type="checkbox" ref="checkbox"/> 记住密码
   
           <a className="login-form-forgot" href={ window.location.href }>
             忘记密码
