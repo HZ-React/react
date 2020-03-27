@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Input, Button, Checkbox } from 'antd';
+import { Form, Input, Button, Checkbox ,message} from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import {Link} from 'react-router-dom'
 import login from '../../api/login'
@@ -13,8 +13,8 @@ class Login extends Component {
     console.log(e)
       login(e)
       .then(res=>{
-        console.log(res)
-        this.props.history.push('/admin')
+        if(res.code){return message.error('用户名或密码错误')}
+        this.props.history.push('/box')
       })
   }
   render() {
@@ -25,6 +25,7 @@ class Login extends Component {
         initialValues={{
           remember: true,
         }}
+        style={{textAlign:"center",paddingTop:"10%"}}
         onFinish={this.onFinish}
       >
         <Form.Item
@@ -38,7 +39,7 @@ class Login extends Component {
             {max:8,message:'用户名不得超过8位'}
           ]}
         >
-          <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="用户名" />
+          <Input prefix={<UserOutlined className="site-form-item-icon" />} style={{width:400,height:40}} placeholder="用户名" />
         </Form.Item>
         <Form.Item
           name="ps"
@@ -53,6 +54,7 @@ class Login extends Component {
             prefix={<LockOutlined className="site-form-item-icon" />}
             type="password"
             placeholder="密码"
+            style={{width:400,height:40}}
           />
         </Form.Item>
         <Form.Item>
