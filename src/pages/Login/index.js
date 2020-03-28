@@ -10,10 +10,13 @@ class Login extends Component {
     this.state = {  }
   }
   onFinish=(e)=>{
-    console.log(this.refs.checkbox.checked)
+    // 登陆
       login(e)
       .then(res=>{
+        // 登陆失败不跳转
         if(res.code){return message.error('用户名或密码错误')}
+        // 成功跳转
+        localStorage.setItem('userToken',res.token)
         this.props.history.push('/box')
       })
   }
@@ -28,6 +31,7 @@ class Login extends Component {
         style={{textAlign:"center",paddingTop:"10%"}}
         onFinish={this.onFinish}
       >
+        {/* 用户名 */}
         <Form.Item
           name="us"
           rules={[
@@ -41,6 +45,7 @@ class Login extends Component {
         >
           <Input prefix={<UserOutlined className="site-form-item-icon" />} style={{width:400,height:40}} placeholder="用户名" />
         </Form.Item>
+        {/* 密码 */}
         <Form.Item
           name="ps"
           rules={[
@@ -57,6 +62,7 @@ class Login extends Component {
             style={{width:400,height:40}}
           />
         </Form.Item>
+        {/* 记住密码 */}
         <Form.Item>
           <input type="checkbox" ref="checkbox"/> 记住密码
   
@@ -64,11 +70,12 @@ class Login extends Component {
             忘记密码
           </a>
         </Form.Item>
-  
+          {/* 登录按钮 */}
         <Form.Item>
           <Button type="primary" htmlType="submit" className="login-form-button ">
             登陆
           </Button>
+          {/* 跳转注册页 */}
           或者 <Link to="/user/reg">注册新用户</Link>
         </Form.Item>
       </Form>
