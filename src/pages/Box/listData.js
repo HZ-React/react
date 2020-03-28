@@ -24,12 +24,6 @@ export default [
         key:'3-2',
         path:'/box/goodslist'
       }
-      ,
-      {
-        title:'商品增加',
-        key:'3-3',
-        path:'/box/goodsupdate'
-      }
     ]
   }
 ]
