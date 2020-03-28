@@ -62,9 +62,6 @@ class Root extends Component {
     console.log(result)
     this.refreshList()
     switch (result.code) {
-      case 0:
-        return notification.error({description:'管理员删除失败，请详细检查传输',message:'错误',duration:1.5})
-        break;
      case -998:
         return notification.error({description:'权限不足',message:'错误',duration:1.5})
         break;
