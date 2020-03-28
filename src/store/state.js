@@ -1,3 +1,3 @@
 export default {
-  name: 'xxx'
+  name: '未登录'
 }

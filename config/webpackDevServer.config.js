@@ -115,8 +115,8 @@ module.exports = function(proxy, allowedHost) {
         pathRewrite:{
           "^/hehe":''
         }
-      }
-   },
+      },
+    },
     before(app, server) {
       // Keep `evalSourceMapMiddleware` and `errorOverlayMiddleware`
       // middlewares before `redirectServedPath` otherwise will not have any effect

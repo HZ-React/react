@@ -5,7 +5,7 @@ export default (prevState = state,actions)=>{
 
   let {type,payload} = actions
   switch(type){
-    case [CHANGE_NAME]:
+    case CHANGE_NAME:
       newData.name = payload
       break;
       default:

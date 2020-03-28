@@ -9,7 +9,11 @@ const loadingComponent =()=>{
 }
 
 
-export default Loadable({
-    loader:import('./index.js'),
-    loading:loadingComponent
-});
+export default (component)=>{
+  Loadable({
+      loader:component,
+      loading:loadingComponent
+  });
+}
+
+

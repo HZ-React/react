@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Layout, Menu } from 'antd';
 import { BarsOutlined} from '@ant-design/icons';
 import listData from './listData'
+import MyHeader from './header'
 import  style from './index.module.less'
 import {withRouter} from 'react-router-dom'
 
@@ -52,10 +53,12 @@ class Box extends Component {
       <Layout style={{height:'100vh'}}>
          {/* 侧边栏 */}
       <Sider trigger={null} collapsible collapsed={this.state.collapsed} style={{height:'100vh'}}>
-        <div className={style.logo} >
+        <div style={{color:"#fff"}}>
           {/* logo */}
-          <img src="../../logo.svg" alt=""/>
-          logo</div>
+          <div style={{height:63,paddingTop:20,paddingLeft:30}}>
+              网易严选后台管理
+          </div>
+          </div>
           {/* 按钮容器 */}
         <Menu  style={{ width: '100%',
               background:'#001529',
@@ -71,7 +74,7 @@ class Box extends Component {
       <Layout className="site-layout">
         {/* 头部 */}
         <Header className={"site-layout-background "+style.header} style={{ padding: 0 }}>
-         这里是头部
+            <MyHeader></MyHeader>
         </Header>
         <Content
           className="site-layout-background"
