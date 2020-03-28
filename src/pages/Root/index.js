@@ -8,6 +8,8 @@ class Root extends Component {
     dataSource:[],//表单里的值
     visible:false,
     spinning:false,
+    us:'',
+    ps:'',
     columns:[//分类
       {
         title:'id',
@@ -55,21 +57,54 @@ class Root extends Component {
 }
 
   del=async(_id)=>{//删除
-    let result=await rootApi.del(_id)
+    let token=localStorage.getItem("userToken")
+    let result=await rootApi.del(_id,token)
     console.log(result)
-    if(result.code!== 0){ return false }
     this.refreshList()
+    switch (result.code) {
+      case 0:
+        return notification.error({description:'管理员删除失败，请详细检查传输',message:'错误',duration:1.5})
+        break;
+     case -998:
+        return notification.error({description:'权限不足',message:'错误',duration:1.5})
+        break;
+      case -997:
+        return notification.error({description:'token缺失',message:'错误',duration:1.5})
+        break;
+      case -1:
+          return notification.error({description:'删除失败',message:'错误',duration:1.5})
+          break; 
+      default:
+       return notification.success({description:'管理员删除ok，模态框即将关闭',message:'成功',duration:1.5})
+       break;
+    }
   }
 
   handleOk=async()=>{
-    let userName = this.refs.us.value
-    let passWord = this.refs.ps.value
-    let result=await rootApi.add({userName,passWord})
-    if (result.code!==0){ return notification.error({description:'管理员添加失败，请详细检查传输',message:'错误',duration:1.5})}
-    notification.success({description:'管理员添ok，模态框即将关闭',message:'成功',duration:1.5})
+    let {us,ps}=this.state
+    console.log(us,ps)
+    let token=localStorage.getItem("userToken")
+    let result=await rootApi.add({us,ps,token})
     console.log(result)
     this.setState({visible:false})
     this.refreshList()
+    switch (result.code) {
+      case result.code!=0:
+        return notification.error({description:'管理员添加失败，请详细检查传输',message:'错误',duration:1.5})
+        break;
+     case -998:
+        return notification.error({description:'权限不足',message:'错误',duration:1.5})
+        break;
+      case -997:
+        return notification.error({description:'token缺失',message:'错误',duration:1.5})
+        break;
+      case -1:
+        return notification.error({description:'添加失败',message:'错误',duration:1.5})
+        break;
+      default:
+       return notification.success({description:'管理员添加ok，模态框即将关闭',message:'成功',duration:1.5})
+        break;
+    }
   }
 
    async componentDidMount(){//渲染页面
@@ -98,8 +133,12 @@ class Root extends Component {
           onOk={this.handleOk}
           onCancel={this.handleCancel}
         >
-          userName:<Input size="large" placeholder="添加管理员名" prefix={<UserOutlined/>} ref='us'/><br/>
-          passWord:<Input.Password size="large" placeholder="管理员密码" prefix={<LockOutlined />} ref='ps'/><br/>
+          userName:<Input size="large" placeholder="添加管理员名" prefix={<UserOutlined/>} onChange={(e)=>{
+            this.setState({us:e.target.value})
+          }}/><br/>
+          passWord:<Input.Password size="large" placeholder="管理员密码" prefix={<LockOutlined />} onChange={(e)=>{
+            this.setState({ps:e.target.value})
+          }}/><br/>
         </Modal>
       </div>
      
