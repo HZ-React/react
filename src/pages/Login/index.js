@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Form, Input, Button ,message} from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import {Link} from 'react-router-dom'
 import login from '../../api/login'
 
 class Login extends Component {
@@ -65,10 +64,6 @@ class Login extends Component {
         {/* 记住密码 */}
         <Form.Item>
           <input type="checkbox" ref="checkbox"/> 记住密码
-  
-          <a className="login-form-forgot" href={ window.location.href }>
-            忘记密码
-          </a>
         </Form.Item>
           {/* 登录按钮 */}
         <Form.Item>
@@ -76,7 +71,6 @@ class Login extends Component {
             登陆
           </Button>
           {/* 跳转注册页 */}
-          或者 <Link to="/user/reg">注册新用户</Link>
         </Form.Item>
       </Form>
     )
