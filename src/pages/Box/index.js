@@ -8,7 +8,7 @@ import {withRouter} from 'react-router-dom'
 const { SubMenu } = Menu;
 
 const { Header, Sider, Content } = Layout;
-class Admin extends Component {
+class Box extends Component {
   constructor(props) {
     super(props);
     this.state = { 
@@ -21,7 +21,6 @@ class Admin extends Component {
     this.props.history.replace(e.item.props.path)
   }
   MenuRender=(list)=>{
-    // 递归渲染侧边栏按钮
     return list.map(item=>{
       if(item.children){
         return (
@@ -62,10 +61,10 @@ class Admin extends Component {
               background:'#001529',
               color:'#ccc' 
               }} 
-              mode="vertical"
+              mode="inline"
               theme="dark"
               onClick={this.handleClick}
-          >
+          >  
           {this.MenuRender(this.state.listData)}
         </Menu>
       </Sider>
@@ -90,4 +89,4 @@ class Admin extends Component {
      );
   }
 }
-export default withRouter(Admin)
+export default withRouter(Box)

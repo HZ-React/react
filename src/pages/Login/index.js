@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { Form, Input, Button, Checkbox ,message} from 'antd';
+import { Form, Input, Button ,message} from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import {Link} from 'react-router-dom'
 import login from '../../api/login'
 
 class Login extends Component {
@@ -10,10 +9,13 @@ class Login extends Component {
     this.state = {  }
   }
   onFinish=(e)=>{
-    console.log(e)
+    // 登陆
       login(e)
       .then(res=>{
+        // 登陆失败不跳转
         if(res.code){return message.error('用户名或密码错误')}
+        // 成功跳转
+        localStorage.setItem('userToken',res.token)
         this.props.history.push('/box')
       })
   }
@@ -28,6 +30,7 @@ class Login extends Component {
         style={{textAlign:"center",paddingTop:"10%"}}
         onFinish={this.onFinish}
       >
+        {/* 用户名 */}
         <Form.Item
           name="us"
           rules={[
@@ -41,6 +44,7 @@ class Login extends Component {
         >
           <Input prefix={<UserOutlined className="site-form-item-icon" />} style={{width:400,height:40}} placeholder="用户名" />
         </Form.Item>
+        {/* 密码 */}
         <Form.Item
           name="ps"
           rules={[
@@ -57,21 +61,16 @@ class Login extends Component {
             style={{width:400,height:40}}
           />
         </Form.Item>
+        {/* 记住密码 */}
         <Form.Item>
-          <Form.Item name="remember" valuePropName="checked" noStyle>
-            <Checkbox>记住密码</Checkbox>
-          </Form.Item>
-  
-          <a className="login-form-forgot" href={ window.location.href }>
-            忘记密码
-          </a>
+          <input type="checkbox" ref="checkbox"/> 记住密码
         </Form.Item>
-  
+          {/* 登录按钮 */}
         <Form.Item>
           <Button type="primary" htmlType="submit" className="login-form-button ">
             登陆
           </Button>
-          或者 <Link to="/user/reg">注册新用户</Link>
+          {/* 跳转注册页 */}
         </Form.Item>
       </Form>
     )
