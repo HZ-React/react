@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { Form, Input, Button ,message} from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import login from '../../api/login'
+import {bindActionCreators} from 'redux'
+import {connect} from 'react-redux'
+import actionsCreator from '../../store/actionsCerator'
 
 class Login extends Component {
   constructor(props) {
@@ -16,6 +19,7 @@ class Login extends Component {
         if(res.code){return message.error('用户名或密码错误')}
         // 成功跳转
         localStorage.setItem('userToken',res.token)
+        this.props.CHANGE_NAME(e.us)
         this.props.history.push('/box')
       })
   }
@@ -78,4 +82,6 @@ class Login extends Component {
   }
 }
  
-export default Login;
+export default connect(state=>state,(dispatch)=>{
+  return bindActionCreators(actionsCreator,dispatch)
+})(Login);
