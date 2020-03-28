@@ -51,8 +51,8 @@ class Root extends Component {
     this.setState({visible:false})
   }
 
-  refreshList=async()=>{//刷新页面
-    let result = await rootApi.list()
+  refreshList=async(token)=>{//刷新页面
+    let result = await rootApi.list(token)
     this.setState({ dataSource: result.data})//将请求到的数据渲染到页面上
 }
 
@@ -63,16 +63,16 @@ class Root extends Component {
     this.refreshList()
     switch (result.code) {
      case -998:
-        return notification.error({description:'权限不足',message:'错误',duration:1.5})
+         notification.error({description:'权限不足',message:'错误',duration:1.5})
         break;
       case -997:
-        return notification.error({description:'token缺失',message:'错误',duration:1.5})
+        notification.error({description:'token缺失',message:'错误',duration:1.5})
         break;
       case -1:
-          return notification.error({description:'删除失败',message:'错误',duration:1.5})
+        notification.error({description:'删除失败',message:'错误',duration:1.5})
           break; 
       default:
-       return notification.success({description:'管理员删除ok，模态框即将关闭',message:'成功',duration:1.5})
+        notification.success({description:'管理员删除ok，模态框即将关闭',message:'成功',duration:1.5})
        break;
     }
   }
@@ -86,26 +86,27 @@ class Root extends Component {
     this.setState({visible:false})
     this.refreshList()
     switch (result.code) {
-      case result.code!=0:
-        return notification.error({description:'管理员添加失败，请详细检查传输',message:'错误',duration:1.5})
+      case 0:
+        notification.success({description:'管理员添加ok，模态框即将关闭',message:'成功',duration:1.5})
         break;
      case -998:
-        return notification.error({description:'权限不足',message:'错误',duration:1.5})
+        notification.error({description:'权限不足',message:'错误',duration:1.5})
         break;
       case -997:
-        return notification.error({description:'token缺失',message:'错误',duration:1.5})
+        notification.error({description:'token缺失',message:'错误',duration:1.5})
         break;
       case -1:
-        return notification.error({description:'添加失败',message:'错误',duration:1.5})
+        notification.error({description:'添加失败',message:'错误',duration:1.5})
         break;
       default:
-       return notification.success({description:'管理员添加ok，模态框即将关闭',message:'成功',duration:1.5})
+       notification.error({description:'管理员添加失败，请详细检查传输',message:'错误',duration:1.5})
         break;
     }
   }
 
-   async componentDidMount(){//渲染页面
-     let result =await rootApi.list()
+   async componentDidMount(token){//渲染页面
+     let result =await rootApi.list(token)
+     console.log(result)
      this.setState({dataSource:result.data})
    }
 
