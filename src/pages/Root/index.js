@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Card, Table ,Spin,Popconfirm,Button,message,Modal,notification,Pagination } from 'antd';
-import { PlusCircleOutlined } from '@ant-design/icons';
+import { Card, Table ,Spin,Popconfirm,Button,message,Modal,notification,Input} from 'antd';
+import { PlusCircleOutlined ,UserOutlined,LockOutlined} from '@ant-design/icons';
 import rootApi from '../../api/root.js'
 import style from './index.module.less'
 class Root extends Component {
@@ -8,7 +8,6 @@ class Root extends Component {
     dataSource:[],//表单里的值
     visible:false,
     spinning:false,
-    count:0, //总数量
     columns:[//分类
       {
         title:'id',
@@ -18,7 +17,7 @@ class Root extends Component {
       {
         title:'管理员',
         dataIndex:'us',
-        key:'us'
+        key:'us',
       },
       {
         title:'操作',
@@ -36,8 +35,7 @@ class Root extends Component {
             onCancel={() => {
                 message.error('取消')
             }
-            }
-              >
+            }>
                 <Button type='danger' small='samll'>删除</Button>
               </Popconfirm>
             </div>
@@ -76,14 +74,13 @@ class Root extends Component {
 
    async componentDidMount(){//渲染页面
      let result =await rootApi.list()
-     let count=result.data.length
      this.setState({dataSource:result.data})
    }
 
 
 
   render() { 
-    let {dataSource,columns,spinning,visible,count} = this.state
+    let {dataSource,columns,spinning,visible} = this.state
     return ( 
       <div className={style.box}>
          <Card title="管理员管理" className={style.card}>
@@ -91,10 +88,8 @@ class Root extends Component {
           this.setState({visible:true})
         }}>添加</Button>
        <Spin spinning={spinning}>
-        <Table dataSource={dataSource} columns={columns}  rowKey='_id'/>
+        <Table dataSource={dataSource} columns={columns} pagination={{ pageSize:3}} rowKey='_id'/>
         </Spin>
-        {/* 分页器 */}
-        <Pagination defaultCurrent={1} total={count} pageSize={4}/>
       </Card>
       {/* 模态框 */}
       <Modal
@@ -103,8 +98,8 @@ class Root extends Component {
           onOk={this.handleOk}
           onCancel={this.handleCancel}
         >
-          userName:<input type="text" ref='us'/><br/>
-          passWord:<input type="text" ref='ps'/><br/>
+          userName:<Input size="large" placeholder="添加管理员名" prefix={<UserOutlined/>} ref='us'/><br/>
+          passWord:<Input.Password size="large" placeholder="管理员密码" prefix={<LockOutlined />} ref='ps'/><br/>
         </Modal>
       </div>
      
