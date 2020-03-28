@@ -1,8 +1,9 @@
 import axios from '../middleware/axios'
 class Root{
     list(){//管理员数据
-        let url='/mall/root/find'
-        return axios.get(url)
+        let token=localStorage.getItem("userToken")
+        let url=`/mall/root/find?token=${token}`
+        return axios.get(url,token)
     }
     del(_id,token){//删除
         let url='/mall/root/del'
