@@ -34,7 +34,7 @@ class Router extends Component {
         }}>
           
         </Route>
-        <Redirect from="/" to="/login" />
+        {/* <Redirect from="/" to="/login" /> */}
       </HashRouter>
      );
   }
