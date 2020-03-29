@@ -3,6 +3,7 @@ import {Route,HashRouter,Redirect} from 'react-router-dom'
 import Box from '../pages/Box'
 import Login from '../pages/Login'
 import Root from '../pages/Root'
+
 import GoodsList from '../pages/Goods/goodslist'
 import Goodsupdate from '../pages/Goods/goodsupdate'
 import Goodsadd from '../pages/Goods/goodsadd'
@@ -18,10 +19,12 @@ class Router extends Component {
             <Box>
               {/* box组件内容区显示的组件,通过props.children传递 */}
                <Route path="/box/root" component={Root}></Route>
+
                <Route path="/box/user" component={User}></Route>
                <Route path="/box/goodslist" component={GoodsList}></Route>
                <Route path="/box/goodsupdate" component={Goodsupdate}></Route>
                <Route path="/box/goodsadd" component={Goodsadd}></Route>
+
             </Box>
           )
         }}>
