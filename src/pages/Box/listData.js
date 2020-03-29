@@ -25,5 +25,19 @@ export default [
         path:'/box/goodslist'
       }
     ]
+  },
+  {
+    title: '商品分类管理',
+    key: '4',
+    path:'/box/goodskind'
+  },
+
+
+
+  {
+    title:'个人设置',
+    key: '7',
+    path:'/box/mysetting'
   }
+
 ]
