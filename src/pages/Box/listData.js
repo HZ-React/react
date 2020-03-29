@@ -25,5 +25,11 @@ export default [
         path:'/box/goodslist'
       }
     ]
+  },
+  {
+    title: '商品分类管理',
+    key: '4',
+    path:'/box/goodskind'
   }
+
 ]
