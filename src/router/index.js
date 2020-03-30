@@ -8,6 +8,11 @@ import GoodsList from '../pages/Goods/goodslist'
 import Goodsupdate from '../pages/Goods/goodsupdate'
 import Goodsadd from '../pages/Goods/goodsadd'
 import User from '../pages/User'
+
+import Sort from '../pages/Classify/sort'//商品分类
+
+import Mysetting from '../pages/Mysetting'
+
 class Router extends Component {
   state = {  }
   render() { 
@@ -25,6 +30,9 @@ class Router extends Component {
                <Route path="/box/goodsupdate" component={Goodsupdate}></Route>
                <Route path="/box/goodsadd" component={Goodsadd}></Route>
 
+               <Route path="/box/mysetting" component={Mysetting}></Route>
+
+               <Route path="/box/goodskind" component={Sort}></Route>
             </Box>
           )
         }}>
