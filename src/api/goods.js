@@ -10,7 +10,7 @@ class Goods {
   goosListDel(_id){
     let url='/mall/goods/goodsdel'
     let token = this.getToken()
-    console.log(_id)
+    // console.log(_id)
     return axios.post(url,{token,_id})
   }
   goodsAddList(payload){
@@ -21,7 +21,7 @@ class Goods {
   }
   goodsOne(_id){
   let token = this.getToken()
-  console.log(_id)
+  // console.log(_id)
   let url='/mall/goods/goodsone'
   return axios.post(url,{_id,token})
   }
@@ -29,12 +29,38 @@ class Goods {
     let token = this.getToken() 
     payload.token = token
     payload._id = _id
-    console.log(payload)
+    // console.log(payload)
     let url='/mall/goods/goodsupdate'
   return axios.post(url,payload)
   }
+  //关键字查询
+  goodsbykw(kw,page=1,pageSize=2){
+    let token = this.getToken()
+    // console.log()
+    let url='/mall/goods/goodsbykw'
+    return axios.post(url,{kw,token,page,pageSize})
   }
-
+   //分类查询
+   goodsbytype(type,page,pageSize){
+    let token = this.getToken()
+    // console.log()
+    let url='/mall/goods/goodsbytype'
+    return axios.post(url,{type,token,page,pageSize})
+  }
+  //分页查询
+  goodsbypage(page=1,pageSize=2){
+    let token = this.getToken()
+    let url='/mall/goods/goodsbypage'
+    // console.log(token)
+    return axios.post(url,{token,page,pageSize})
+  }
+  imgupload(payload){
+    let url='/mall/goods/img'
+    console.log(payload)
+    return axios.post(url,payload)
+  }
+}
+ 
 
 
 export default new Goods()
