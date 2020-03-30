@@ -9,7 +9,9 @@ import Goodsupdate from '../pages/Goods/goodsupdate'
 import Goodsadd from '../pages/Goods/goodsadd'
 import User from '../pages/User'
 
-import Sort from '../pages/Classify/sort'//商品分类
+import Sort from '../pages/Classify/Sort/sort'//商品分类
+import ClssifyAdd from '../pages/Classify/ClassifyAdd/index.js'//商品分类添加
+import ClassifyUpdate from '../pages/Classify/ClssifyUpdate/index.js'//商品分类修改
 
 class Router extends Component {
   state = {  }
@@ -28,7 +30,9 @@ class Router extends Component {
                <Route path="/box/goodsupdate" component={Goodsupdate}></Route>
                <Route path="/box/goodsadd" component={Goodsadd}></Route>
 
-               <Route path="/box/goodskind" component={Sort}></Route>
+               <Route path="/box/classifylist" component={Sort}></Route>
+               <Route path="/box/classifyadd" component={ClssifyAdd}></Route>
+               <Route path="/box/classifyupdate" component={ClassifyUpdate}></Route>
             </Box>
           )
         }}>

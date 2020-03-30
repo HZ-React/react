@@ -29,7 +29,19 @@ export default [
   {
     title: '商品分类管理',
     key: '4',
-    path:'/box/goodskind'
+    path:'/box',
+    children:[
+      {
+        title:'商品分类列表',
+        key:'4-1',
+        path:'/box/classifylist'
+      },
+      {
+        title:'商品列表分类添加',
+        key:'4-2',
+        path:'/box/classifyadd'
+      }
+    ]
   }
 
 ]
