@@ -95,7 +95,7 @@ class User extends Component {
     let { columns, visible, spinning,list } = this.state
     return (
       <div className='userlist' >
-        <Card title="这里是用户管理">
+        <Card title="用户管理">
 
           <Button type="primary" icon={<PlusOutlined />} onClick={() => {
             this.setState({ visible: true })

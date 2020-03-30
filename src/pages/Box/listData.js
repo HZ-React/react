@@ -31,6 +31,11 @@ export default [
     key: '4',
     path:'/box/goodskind'
   },
+  {
+    title: '广告管理',
+    key: '5',
+    path:'/box/advertisement'
+  },
 
 
 
