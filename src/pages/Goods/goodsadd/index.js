@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, Table,Button } from 'antd';
+import { Card, Table,Button, message } from 'antd';
 import style from  './index.module.less';
 import api from '../../../api/goods'
 class Goods extends Component {
@@ -15,7 +15,23 @@ class Goods extends Component {
    addList=async(payload)=>{
     console.log(payload)
     let result=await api.goodsAddList(payload)
+    let {err,msg}=result
+    if(err==-1){ message.error('商品添加失败，每一项都为必填项')}
+    else{
+      message.success('商品添加成功')
+     this.props.history.push('/box/goodslist')
+    }
    }
+   GoodsImgUpload=async(payload)=>{
+    let file=this.refs.img.files[0]
+    let formdate=new FormData()
+    formdate.append('hehe',file)
+    let {err,msg,path}=await api.imgupload(formdate)
+    
+    this.setState({path})
+    console.log(path)
+    // console.log(result)
+  }
   render() { 
     let {name,desc,price,path,stock,putaway,type}=this.state
     return ( 
@@ -28,17 +44,24 @@ class Goods extends Component {
           <span>stock:</span><input ref='stock' ></input><br/>
           <span>putaway:</span><input ref='putaway' ></input><br/>
           <span>type:</span><input ref='type' ></input><br/>
+          缩略图：<input type='file' ref='img'></input><button
+          onClick={()=>{
+            this.GoodsImgUpload()
+          }}
+          >上传图片</button>
+          <img width='100' height='120' src={path} ></img>
          <Button onClick={()=>{
            let name=this.refs.name.value
            let desc=this.refs.desc.value
            let price=this.refs.price.value
-           let path=this.refs.path.value
+           let path=this.state.path
            let stock=this.refs.stock.value
            let putaway=this.refs.putaway.value
            let type=this.refs.type.value
            let obj={name,desc,price,path,stock,putaway,type}
            console.log(obj)
           this.addList(obj)
+         
          }}>添加</Button>
       </Card>
      );
