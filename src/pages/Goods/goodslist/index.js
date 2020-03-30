@@ -22,7 +22,7 @@ class Goods extends Component {
       return( <img width ='150' height='80'src={path}/>)
     }},
     {title: '库存',dataIndex: 'stock',key: 'stock',width:80},
-    {title: '状态',dataIndex: 'putaway',key: 'putaway',width:120},
+    {title: '发布状态',dataIndex: 'putaway',key: 'putaway',width:120},
     {title: '类型',dataIndex: 'type',key: 'type',width:120},
     {title: '操作',key: 'action',width:120,fixed:'right',fixed:'right',render:(recode)=>{
       return(
@@ -30,11 +30,22 @@ class Goods extends Component {
           <Popconfirm title='你确定要删除该商品嘛?'
           onConfirm={()=>{
             // console.log(recode._id)
-            this.delList(recode._id)}}
+            this.delList(recode._id)
+            if(this.state.now===1){
+              this.renderListByPage()
+            }else if(this.state.now===2){
+              this.GoodsfindByKw(this.state.searchValue)
+            }else{
+              this.GoodsfindByType(this.state.typeValue)
+            } 
+         
+          }         
+          }
+            
           >
             <Button type='danger' size='small'>删除</Button>
           </Popconfirm>
-       
+         
           <Button type='primary' size='small' onClick={()=>{
         
            this.props.history.push('/box/goodsupdate?'+recode._id)
@@ -57,11 +68,7 @@ class Goods extends Component {
      let count=result.allCount
     this.setState({dataSource:data,count,now:1}) 
    }
-   renderList=async()=>{
-    let result=await api.goodsList()
-    let {msg,data}=result
-    this.setState({dataSource:data})  
-   }
+  
    //添加商品
    addList=async(payload)=>{
      let result=await api.goodsAddList(payload)
@@ -69,10 +76,8 @@ class Goods extends Component {
    }
    //删除商品
    delList=async(_id)=>{
-    //  console.log(_id)
     let result=await api.goosListDel(_id)
-    this.renderList()
-    // console.log(result)
+    this.renderListByPage()
    }
    //模糊查询
    GoodsfindByKw=async(kw)=>{
@@ -141,7 +146,8 @@ class Goods extends Component {
     this.renderListByPage()
   }}
   >查询所有商品</Button>
-  <span>pageSize:</span><input value={this.state.pageSize} onChange={(e)=>{
+ <span >
+ pageSize:<input   value={this.state.pageSize} onChange={(e)=>{
     this.setState({pageSize:e.target.value},()=>{
         // if(pageSize instanceof String){
         //  return message.error('输入不能未空')
@@ -157,6 +163,7 @@ class Goods extends Component {
     })
    
   }}></input>
+ </span>
         <Table dataSource={dataSource} columns={columns} rowKey='_id'  pagination={false}  scroll={{x:500}}/>
         {/* 模糊查询界面 */}
         <Modal
