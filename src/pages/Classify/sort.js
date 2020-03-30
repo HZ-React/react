@@ -10,6 +10,7 @@ const {Panel} = Collapse
                 {
                     header:"推荐专区",
                     key:"1",
+                    _id:'123123',
                     childer:[
                         {
                             header:"充值特惠",
@@ -28,6 +29,7 @@ const {Panel} = Collapse
                 {
                     header:"宅家防护",
                     key:"2",
+                    _id:'123123123',
                     childer:[
                         {
                             header:"消毒杀菌",
@@ -60,7 +62,7 @@ const {Panel} = Collapse
             }else{
                 return (
                     <Panel header={item.header} key={item.key}> 
-                        <Button type="primary">点击管理</Button>
+                        <Button type="primary" >点击管理</Button>
                     </Panel>
                 )
             }
