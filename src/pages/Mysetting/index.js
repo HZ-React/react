@@ -25,6 +25,7 @@ class User extends Component {
       console.log(this.state)
       let {us,avatorUrl,email} = this.state
       let {CHANGE_NAME,CHANGE_EMAIL,CHANGE_AVATORURL,_id} = this.props
+      if(!_id){return  message.error('请先登陆')}
       CHANGE_NAME(us)
       CHANGE_EMAIL(email)
       CHANGE_AVATORURL(avatorUrl)
