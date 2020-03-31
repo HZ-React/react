@@ -12,13 +12,16 @@ class Sort extends Component {
             header:'',
         }
     }
+    renderButton=()=>{//修改大分类
+       return <Button>修改</Button>
+    }
+    
     listRender = (list) => {
         return list.map(item => {
         //    console.log(item)
-
             if (item.childern) {
                 return (
-                    <Panel header={item.header} key={item.key}>
+                    <Panel header={item.header} key={item.key} extra={this.renderButton()}>
 
                     {/* 点击跳转到添加页面，并传递_id过去 */}
                     <Button type="primary" icon={<PlusCircleOutlined />} onClick={()=>{
