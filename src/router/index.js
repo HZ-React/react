@@ -12,6 +12,7 @@ import User from '../pages/User'
 import Sort from '../pages/Classify/Sort/sort'//商品分类
 import ClssifyAdd from '../pages/Classify/ClassifyAdd/index.js'//商品分类添加
 import ClassifyUpdate from '../pages/Classify/ClssifyUpdate/index.js'//商品分类修改
+import Ad from '../pages/Ad/index'//广告管理
 
 import Mysetting from '../pages/Mysetting'
 
@@ -40,6 +41,7 @@ class Router extends Component {
                <Route path="/box/mysetting" component={Mysetting}></Route>
 
                <Route path="/box/goodskind" component={Sort}></Route>
+               <Route path="/box/advertisement" component={Ad}></Route>
             </Box>
           )
         }}>
