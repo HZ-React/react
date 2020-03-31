@@ -2,21 +2,31 @@ import React, { Component } from 'react'
 import style from './index.moudle.less'
 import { Collapse, Card, Button,notification,Popconfirm,message} from 'antd';
 import classifyApi from '../../../api/classify'
+import { PlusCircleOutlined} from '@ant-design/icons';
 const { Panel } = Collapse
 class Sort extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            listData: []
+            listData: [],
+            header:'',
         }
     }
     listRender = (list) => {
-        // console.log(list)
         return list.map(item => {
-           
+        //    console.log(item)
+
             if (item.childern) {
                 return (
                     <Panel header={item.header} key={item.key}>
+
+                    {/* 点击跳转到添加页面，并传递_id过去 */}
+                    <Button type="primary" icon={<PlusCircleOutlined />} onClick={()=>{
+                        // this.props.history.replace(`/box/classifyadd?_id=${item._id}`)
+                        this.props.history.replace({pathname:'/box/classifyadd',state:{_id:item._id}})//跳转+传id
+                        // console.log(item)
+                      }}>添加分类</Button>
+
                         <Collapse defaultActiveKey={item.key}>
                             {this.listRender(item.childern)}
                         </Collapse>
@@ -26,9 +36,14 @@ class Sort extends Component {
                 return (
                     <Panel header={item.header} key={item.key}>
                         <Button type="primary" onClick={()=>{
-                            // console.log(this.props)
-                            this.props.history.replace('/box/classifyupdate')
+                            let index=item.key.split('-')[0]-1//这条数据的index
+                            let _id=this.state.listData[index]._id
+                            let Cindex=item.key.split('-')[1]//key后面的数字
+                            let header=item.header
+                            //是否需要Dindex？
+                            this.props.history.replace({pathname:'/box/classifyupdate',state:{_id,Cindex,header}})//跳转+传id
                         }}>修改分类</Button> 
+
                          <Popconfirm
                          placement="right"
                          title='你确定要删除这个账号吗？'
@@ -80,31 +95,13 @@ class Sort extends Component {
            }
     }
 
-    add=async(payload)=>{//添加方法
-        let result=await classifyApi.add(payload)
-        this.refreshList()
-        switch(result.code){
-            case -998:
-                notification.error({description:'权限不足',message:'错误',duration:1.5})
-               break;
-             case -997:
-               notification.error({description:'token缺失',message:'错误',duration:1.5})
-               break;
-             case -1:
-               notification.error({description:'添加失败',message:'错误',duration:1.5})
-                 break; 
-             default:
-               notification.success({description:'商品分类添加ok，模态框即将关闭',message:'成功',duration:1.5})
-              break;
-        }
-    }
-
     async componentDidMount(token){//渲染页面
         let result =await classifyApi.list(token)
-        this.setState({listData:result.result},()=>{
-            console.log(this.state.listData)
-        })
-    }
+        this.setState({listData:result.result}
+        //     ,()=>{
+        //     console.log(this.state.listData)
+        // 
+    )}
     render() {
         let {listData}=this.state
         return (

@@ -29,6 +29,7 @@ export default [
   {
     title: '商品分类管理',
     key: '4',
+
     path:'/box',
     children:[
       {
@@ -36,12 +37,17 @@ export default [
         key:'4-1',
         path:'/box/classifylist'
       },
-      {
-        title:'商品列表分类添加',
-        key:'4-2',
-        path:'/box/classifyadd'
-      }
+      // {
+      //   title:'商品列表分类添加',
+      //   key:'4-2',
+      //   path:'/box/classifyadd'
+      // }
     ]
+  },
+  {
+    title:'个人设置',
+    key: '7',
+    path:'/box/mysetting'
   }
 
 ]
