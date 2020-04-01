@@ -59,8 +59,16 @@ class Goods {
     console.log(payload)
     return axios.post(url,payload)
   }
+  //分类返回的数据
+  classifygetinfo(){
+    let token = this.getToken()
+    let url=`/mall/Classify/getinfo?token=${this.getToken()}`
+    return axios.get(url)
+  }
+
 }
- 
+
+
 
 
 export default new Goods()
