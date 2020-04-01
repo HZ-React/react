@@ -1,10 +1,12 @@
 import React, { Component, Fragment } from 'react';
-import {SearchOutlined,BellOutlined,UserOutlined} from '@ant-design/icons';
-import {Input,Badge,Avatar, Button } from 'antd'
+import {SearchOutlined,BellOutlined,UserOutlined,DownOutlined} from '@ant-design/icons';
+import {Input,Badge,Avatar, Button , Menu, Dropdown } from 'antd'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import actionsCreator from '../../store/actionsCerator'
 import {withRouter} from 'react-router-dom';
+import Root from '../../api/root'
+
 class Header extends Component {
   constructor(props){
     super(props)
@@ -13,10 +15,50 @@ class Header extends Component {
     }
   }
   islogin=(name)=>{
-    return (name!='未登录'?<span>{name}</span>:<Button onClick={()=>{
-      this.props.history.replace('/login')
+    return (name!='未登录'?<Dropdown overlay={this.menu}>
+    <a>
+       {name} <DownOutlined />
+     </a>
+   </Dropdown>:<Button onClick={()=>{
+                this.props.history.replace('/login')
     }}>登陆</Button>
-    )}
+  )}
+  async componentDidMount() {
+    let _id = localStorage.getItem('user_id')
+    try{
+      let {CHANGE_NAME,CHANGE_EMAIL,CHANGE_AVATORURL} = this.props
+      // 获取用户id
+      let token = localStorage.getItem('userToken')
+      // 没有token直接结束
+      if(!token || token == 'null'){return false}
+      if(_id === '5e7df387a0d79a3538887dad'){return false}
+      // 获取个人信息
+      let result=await Root.findOne(_id)
+      let {us,email,avatorUrl} = result.data
+      // 改变全局状态
+      CHANGE_NAME(us)
+      CHANGE_EMAIL(email)
+      CHANGE_AVATORURL(avatorUrl)
+    }catch{
+      
+    }
+  }
+  menu=()=>{
+    return (
+      <Menu>
+            <Menu.Item>
+              <span onClick={this.quit}>
+                退出登陆
+              </span>
+            </Menu.Item>
+          </Menu>
+    )
+  }
+  quit=()=>{
+    this.props.history.replace('/login')
+    localStorage.removeItem('user_id')
+    localStorage.removeItem('userToken')
+  }
   render() { 
     let {us:name} = this.props
     return ( 
@@ -42,7 +84,8 @@ class Header extends Component {
             <BellOutlined style={{fontSize:20}}/>
           </Badge>
           <Avatar size={30} icon={<UserOutlined />} />
-          {this.islogin(name)}
+          <span>{this.islogin(name)}</span>
+          
         </div>
       </Fragment>
      );

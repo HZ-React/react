@@ -48,6 +48,13 @@ class Box extends Component {
       }
     })
   }
+  componentDidMount() {
+    let token = localStorage.getItem('userToken')
+    if(!token || token === 'null'){
+      this.props.history.replace('/login')
+    }
+  }
+  
   render() { 
     return ( 
       <Layout style={{height:'100vh'}}>

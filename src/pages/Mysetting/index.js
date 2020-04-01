@@ -15,21 +15,21 @@ class User extends Component {
          email:''
       }
    }
-   async componentDidMount() {
-      let result = await Root.list()
-      console.log(result)
-      let {us,avatorUrl,email} = this.props
-      this.setState({us,avatorUrl,email})
-   }
-   save=()=>{
-      console.log(this.state)
-      let {us,avatorUrl,email} = this.state
-      let {CHANGE_NAME,CHANGE_EMAIL,CHANGE_AVATORURL,_id} = this.props
+   
+   save=async ()=>{
+      let _id = localStorage.getItem('user_id')
+      let {CHANGE_NAME,CHANGE_EMAIL,CHANGE_AVATORURL} = this.props
       if(!_id){return  message.error('请先登陆')}
+      let {us,avatorUrl,email} = this.state
       CHANGE_NAME(us)
       CHANGE_EMAIL(email)
       CHANGE_AVATORURL(avatorUrl)
-      saveMySetting({us,email,avatorUrl,_id}).then(res=>{
+      let payload = {}
+      if(us){payload.us = us}
+      if(avatorUrl){payload.avatorUrl = avatorUrl}
+      if(email){payload.email = email}
+      payload._id = _id
+      saveMySetting(payload).then(res=>{
          if(res.nModified){
             message.success('保存成功')
          }else{
@@ -43,8 +43,8 @@ class User extends Component {
       let data = new FormData
       data.append('hehe',file)
       Goods.imgupload(data).then(res=>{
-         console.log(res)
          let {path} = res
+         this.props.CHANGE_AVATORURL(path)
          this.setState({avatorUrl:path})
       })
    }
@@ -55,12 +55,12 @@ class User extends Component {
                <div>
                   <div style={{float:"left"}}>
                      邮箱
-                     <Input placeholder={email} onChange={(e)=>{
+                     <Input placeholder={this.props.email} value={email} onChange={(e)=>{
                         this.setState({email:e.target.value})
                      }}/>
                      <br/>
                      昵称
-                     <Input placeholder={us} onChange={(e)=>{
+                     <Input  placeholder={this.props.us} value={us} onChange={(e)=>{
                         this.setState({us:e.target.value})
                      }}/>
                      <br/>
@@ -68,7 +68,7 @@ class User extends Component {
                   <div style={{
                      float:"right"
                   }}>
-                     <img src={avatorUrl || "https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png"} alt="" style={{borderRadius:'50%',width:100}}/>
+                     <img src={this.props.avatorUrl || "https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png"} alt="" style={{borderRadius:'50%',width:100}}/>
                      <br/>
                      <input type="file" placeholder="更换头像" style={{margin:"20px 0"}} ref="img"/>
                      <br />
