@@ -29,16 +29,20 @@ export default [
   {
     title: '商品分类管理',
     key: '4',
-    path:'/box/goodskind'
+    path:'/box/goodskind' ,
+    children:[
+      {
+        title:'商品分类列表',
+        key:'4-1',
+        path:'/box/classifylist'
+      },
+    ]
   },
-  {
+   {
     title: '广告管理',
     key: '5',
     path:'/box/advertisement'
   },
-
-
-
   {
     title:'个人设置',
     key: '7',

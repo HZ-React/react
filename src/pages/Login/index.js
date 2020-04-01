@@ -12,6 +12,7 @@ class Login extends Component {
     this.state = {  }
   }
   onFinish=(e)=>{
+    let {CHANGE_NAME,CHANGE_EMAIL,CHANGE_AVATORURL,CHANGE__ID} = this.props
     // 登陆
       login(e)
       .then(res=>{
@@ -19,7 +20,11 @@ class Login extends Component {
         if(res.code){return message.error('用户名或密码错误')}
         // 成功跳转
         localStorage.setItem('userToken',res.token)
-        this.props.CHANGE_NAME(e.us)
+        CHANGE_NAME(res.data.us)
+        CHANGE_EMAIL(res.data.email)
+        CHANGE_AVATORURL(res.data.avatorUrl)
+        CHANGE__ID(res.data._id)
+        console.log(this.props)
         this.props.history.push('/box')
       })
   }

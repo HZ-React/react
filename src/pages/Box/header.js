@@ -1,9 +1,10 @@
 import React, { Component, Fragment } from 'react';
 import {SearchOutlined,BellOutlined,UserOutlined} from '@ant-design/icons';
-import {Input,Badge,Avatar } from 'antd'
+import {Input,Badge,Avatar, Button } from 'antd'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import actionsCreator from '../../store/actionsCerator'
+import {withRouter} from 'react-router-dom';
 class Header extends Component {
   constructor(props){
     super(props)
@@ -11,7 +12,13 @@ class Header extends Component {
       BadgeCount:9,
     }
   }
+  islogin=(name)=>{
+    return (name!='未登录'?<span>{name}</span>:<Button onClick={()=>{
+      this.props.history.replace('/login')
+    }}>登陆</Button>
+    )}
   render() { 
+    let {us:name} = this.props
     return ( 
       <Fragment>
         <div  style={{
@@ -35,7 +42,7 @@ class Header extends Component {
             <BellOutlined style={{fontSize:20}}/>
           </Badge>
           <Avatar size={30} icon={<UserOutlined />} />
-        <span>{this.props.name}</span>
+          {this.islogin(name)}
         </div>
       </Fragment>
      );
@@ -44,4 +51,4 @@ class Header extends Component {
  
 export default connect(state=>state,(dispatch)=>{
   return bindActionCreators(actionsCreator,dispatch)
-})(Header);
+})(withRouter(Header))

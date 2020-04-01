@@ -1,3 +1,6 @@
 export default {
-  name: '未登录'
+  us: '未登录',
+  email:'',
+  avatorUrl:'',
+  _id:''
 }

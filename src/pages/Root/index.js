@@ -57,6 +57,7 @@ class Root extends Component {
 }
 
   del=async(_id)=>{//删除
+    console.log(_id)
     let token=localStorage.getItem("userToken")
     let result=await rootApi.del(_id,token)
     console.log(result)
@@ -106,7 +107,7 @@ class Root extends Component {
 
    async componentDidMount(token){//渲染页面
      let result =await rootApi.list(token)
-     console.log(result)
+    //  console.log(result)
      this.setState({dataSource:result.data})
    }
 
