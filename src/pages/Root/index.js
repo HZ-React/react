@@ -12,18 +12,15 @@ class Root extends Component {
     ps:'',
     columns:[//分类
       {
-        title:'id',
-        dataIndex:'_id',
-        key:'id'
-      },
-      {
         title:'管理员',
         dataIndex:'us',
         key:'us',
+        width:'80%'
       },
       {
         title:'操作',
         key:'action',
+        width:'20%',
         render:(record)=>{
           return(
             <div>

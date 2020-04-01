@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import style from './index.moudle.less'
 import { Collapse, Card, Button,notification,Popconfirm,message} from 'antd';
 import classifyApi from '../../../api/classify'
@@ -12,16 +12,15 @@ class Sort extends Component {
             header:'',
         }
     }
-    renderButton=()=>{//修改大分类
-       return <Button>修改</Button>
-    }
+
     
     listRender = (list) => {
+        if(!list){return message.error('登陆失效，重新登陆')}
         return list.map(item => {
         //    console.log(item)
             if (item.childern) {
                 return (
-                    <Panel header={item.header} key={item.key} extra={this.renderButton()}>
+                    <Panel header={item.header} key={item.key}>
 
                     {/* 点击跳转到添加页面，并传递_id过去 */}
                     <Button type="primary" icon={<PlusCircleOutlined />} onClick={()=>{
