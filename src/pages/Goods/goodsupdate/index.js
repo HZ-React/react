@@ -12,7 +12,8 @@ class Goods extends Component {
     "stock":"0",
     "putaway":"0",
     "type":"热菜",
-    "value": ""
+    "value": "",
+    data:[]
    }
    componentDidMount=async()=>{
      let result=this.props.location.search
@@ -25,6 +26,7 @@ class Goods extends Component {
     
      this.setState({name,desc,price,path,stock,putaway,value:type})
      console.log(this.state.name)
+     this.Classifyfind()
    }
    goodsUpdate=async(_id,payload)=>{
     console.log(payload)
@@ -57,7 +59,29 @@ class Goods extends Component {
   onChange = value => {
     console.log(value);
     this.setState({ value });
-  };
+  }
+  Classifyfind=async()=>{
+    let data=await api.classifygetinfo()
+    let {msg,code,result}=data
+    this.setState({data:result})
+  }
+  listRender=(list)=>{
+    return list.map((item,index)=>{
+      if(!item.childern) {
+        return (
+          <TreeNode value={item.key} key={item.key} title={item.header}>        
+          </TreeNode>
+        )
+      }
+      else{
+        return (
+          <TreeNode value={item.key} key={item.key} title={item.header}> 
+          {this.listRender(item.childern)}       
+          </TreeNode>
+        )
+      }
+    })  
+}
   render() { 
     let {name,desc,price,path,stock,putaway,type,value}=this.state
     return ( 
@@ -103,46 +127,7 @@ class Goods extends Component {
         treeDefaultExpandAll
         onChange={this.onChange}
       >
-        <TreeNode value="居家生活" title="居家生活">
-          <TreeNode value="口碑好物header" title="口碑好物">
-            <TreeNode value="口碑好物" title="口碑好物" />
-            <TreeNode value="抑菌除螨" title="抑菌除螨" />
-            <TreeNode value="春夏好物" title="春夏好物" />
-            <TreeNode value="主题床品" title="主题床品" />
-            <TreeNode value="北欧原木" title="北欧原木" />
-            <TreeNode value="餐厨爆款清单" title="餐厨爆款清单" />
-          </TreeNode>
-          <TreeNode value="床上生活" title="床上生活">
-            <TreeNode value="床品件套" title="床品件套" />
-            <TreeNode value="被枕盖毯" title="被枕盖毯" />
-            <TreeNode value="床垫床褥" title="床垫床褥" />
-          </TreeNode>
-          <TreeNode value="家居饰品" title="家居饰品">
-            <TreeNode value="抱枕靠垫" title="抱枕靠垫" />
-            <TreeNode value="家饰" title="家饰" />
-            <TreeNode value="居家布艺" title="居家布艺" />
-          </TreeNode>
-        </TreeNode>
-        <TreeNode value="服饰鞋包" title="服饰鞋包">
-          <TreeNode value="当季热销" title="当季热销">
-            <TreeNode value="热销爆款" title="热销爆款" />
-            <TreeNode value="好物上新" title="好物上新" />
-            <TreeNode value="抄底特惠" title="抄底特惠" />
-          </TreeNode>
-          <TreeNode value="男装" title="男装">
-            <TreeNode value="男式T恤/POLO" title="男式T恤/POLO" />
-            <TreeNode value="男式衬衫" title="男式衬衫" />
-            <TreeNode value="男式裤装" title="男式裤装" />
-            <TreeNode value="男式牛仔" title="男式牛仔" />
-            <TreeNode value="男式针织衫/卫衣" title="男式针织衫/卫衣" />
-            <TreeNode value="男式外套" title="男式外套" />
-          </TreeNode>
-          <TreeNode value="女装" title="女装">
-            <TreeNode value="女式T恤/POLO" title="女式T恤/POLO" />
-            <TreeNode value="女式裙装" title="女式裙装" />
-            <TreeNode value="女士半裙" title="女士半裙" />
-          </TreeNode>
-        </TreeNode>
+        {this.listRender(this.state.data)}
       </TreeSelect>
       <br/>
          修改图片<input type='file' ref='img'></input>

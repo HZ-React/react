@@ -5,6 +5,7 @@ import { Card, Table,Button,Modal,Popconfirm ,Input,Pagination, message} from 'a
 import { SearchOutlined ,PlusCircleTwoTone} from '@ant-design/icons';
 class Goods extends Component {
   state = { 
+    data:[],
     now:1,
     page:1,
     pageSize:3,
@@ -23,7 +24,15 @@ class Goods extends Component {
     }},
     {title: '库存',dataIndex: 'stock',key: 'stock',width:80},
     {title: '发布状态',dataIndex: 'putaway',key: 'putaway',width:120},
-    {title: '类型',dataIndex: 'type',key: 'type',width:120},
+    {title: '类型',key:'type',width:120,render:(h)=>{
+      console.log(h)
+      let keyFrist = h.type.split('-')[0] - 1
+      let keylast = h.type.split('-')[1] -1 
+      // console.log(this.state.data.result[0].childern[1].header)/
+      // console.log(this.state.data.result[keyFrist].childern[keylast].header)
+      let str = this.state.data.result[keyFrist].childern[keylast].header
+      return <span>{str}</span>
+    }},
     {title: '操作',key: 'action',width:120,fixed:'right',fixed:'right',render:(recode)=>{
       return(
         <div>
@@ -56,8 +65,11 @@ class Goods extends Component {
     }}
   ]
    }
-   componentDidMount(){
+   componentDidMount= async ()=>{
   //  this.renderList()
+  let result = await api.classifygetinfo()
+  await this.setState({data:result})
+  console.log(this.state.data)
    this.renderListByPage()
    }
    //分页查询方法
