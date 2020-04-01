@@ -54,10 +54,8 @@ class Root extends Component {
 }
 
   del=async(_id)=>{//删除
-    console.log(_id)
     let token=localStorage.getItem("userToken")
     let result=await rootApi.del(_id,token)
-    console.log(result)
     this.refreshList()
     switch (result.code) {
      case -998:
@@ -77,10 +75,8 @@ class Root extends Component {
 
   handleOk=async()=>{
     let {us,ps}=this.state
-    console.log(us,ps)
     let token=localStorage.getItem("userToken")
     let result=await rootApi.add({us,ps,token})
-    console.log(result)
     this.setState({visible:false})
     this.refreshList()
     switch (result.code) {
@@ -104,7 +100,6 @@ class Root extends Component {
 
    async componentDidMount(token){//渲染页面
      let result =await rootApi.list(token)
-    //  console.log(result)
      this.setState({dataSource:result.data})
    }
 
