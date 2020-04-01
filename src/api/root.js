@@ -5,6 +5,11 @@ class Root{
         let url=`/mall/root/find?token=${token}`
         return axios.get(url,token)
     }
+    findOne(_id){
+        let token=localStorage.getItem("userToken")
+        let url=`/mall/root/findone?_id=${_id}&token=${token}`
+        return axios.get(url)
+    }
     del(_id,token){//删除
         let url='/mall/root/del'
         return axios.post(url,{_id,token}) 
