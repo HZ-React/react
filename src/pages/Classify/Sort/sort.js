@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import style from './index.moudle.less'
 import { Collapse, Card, Button,notification,Popconfirm,message} from 'antd';
 import classifyApi from '../../../api/classify'
@@ -12,22 +12,19 @@ class Sort extends Component {
             header:'',
         }
     }
-    renderButton=()=>{//修改大分类
-       return <Button>修改</Button>
-    }
+
     
     listRender = (list) => {
+        if(!list){return message.error('登陆失效，重新登陆')}
         return list.map(item => {
-        //    console.log(item)
             if (item.childern) {
                 return (
-                    <Panel header={item.header} key={item.key} extra={this.renderButton()}>
+                    <Panel header={item.header} key={item.key}>
 
                     {/* 点击跳转到添加页面，并传递_id过去 */}
                     <Button type="primary" icon={<PlusCircleOutlined />} onClick={()=>{
                         // this.props.history.replace(`/box/classifyadd?_id=${item._id}`)
                         this.props.history.replace({pathname:'/box/classifyadd',state:{_id:item._id}})//跳转+传id
-                        // console.log(item)
                       }}>添加分类</Button>
 
                         <Collapse defaultActiveKey={item.key}>
@@ -72,15 +69,12 @@ class Sort extends Component {
     refreshList=async(token)=>{//刷新页面
         let result = await classifyApi.list(token)
         this.setState({listData:result.result},()=>{
-            console.log( this.state.listData)
         })
-        console.log(result)
     }
     
 
     del=async(payload)=>{//删除方法
         let result=await classifyApi.del(payload)
-        console.log(result)
         this.refreshList()
         switch (result.code) {
             case -998:
@@ -101,9 +95,7 @@ class Sort extends Component {
     async componentDidMount(token){//渲染页面
         let result =await classifyApi.list(token)
         this.setState({listData:result.result}
-        //     ,()=>{
-        //     console.log(this.state.listData)
-        // 
+
     )}
     render() {
         let {listData}=this.state

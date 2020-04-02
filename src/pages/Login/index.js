@@ -20,11 +20,11 @@ class Login extends Component {
         if(res.code){return message.error('用户名或密码错误')}
         // 成功跳转
         localStorage.setItem('userToken',res.token)
+        localStorage.setItem('user_id',res.data._id)
         CHANGE_NAME(res.data.us)
         CHANGE_EMAIL(res.data.email)
         CHANGE_AVATORURL(res.data.avatorUrl)
         CHANGE__ID(res.data._id)
-        console.log(this.props)
         this.props.history.push('/box')
       })
   }

@@ -12,7 +12,6 @@ class ClassifyAdd extends Component{
 
      add=async(payload)=>{//添加方法
         let result=await classifyApi.add(payload)
-        console.log(result)
         switch(result.code){
             case -998:
                 notification.error({description:'权限不足',message:'错误',duration:2})
@@ -30,11 +29,9 @@ class ClassifyAdd extends Component{
     }
     
     componentDidMount() {
-        console.log(this.props.history.location.state._id)//获取到id
         let token=localStorage.getItem("userToken")
         let _id=this.props.history.location.state._id
         classifyApi.find({_id,token}).then(result=>{
-            console.log(result)
             let key=`${result.data.key}-${result.data.childern.length+1}`
             this.setState({key})
         })
@@ -57,7 +54,6 @@ class ClassifyAdd extends Component{
                   let _id=this.props.history.location.state._id
                   classifyApi.find({_id,token})
                   .then(result=>{
-                    console.log('添加',result.data)  
                     let obj = {header,key}
                     result.data.childern.push(obj)
                     return result.data
