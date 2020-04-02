@@ -15,7 +15,7 @@ class Goods extends Component {
     type:false,
     typeValue:'',
     dataSource:[],
-    columns:[ {title: '_id',dataIndex: '_id',key: '_id',width:180,fixed:'left'},
+    columns:[ 
     {title: '名称',dataIndex: 'name',key: 'name',width:120},
     {title: '描述',dataIndex: 'desc',key: 'desc',width:180},
     {title: '价格',dataIndex: 'price',key: 'price',width:80},
