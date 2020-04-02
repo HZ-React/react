@@ -18,18 +18,18 @@ class Goods extends Component {
    componentDidMount=async()=>{
      let result=this.props.location.search
      let _id=result.split('?')[1]
-     console.log(_id)
+    //  console.log(_id)
      let goodsOnlyOne=await api.goodsOne(_id)
      let{data}=goodsOnlyOne
-     console.log(data)
+    //  console.log(data)
      let {name,desc,price,path,stock,putaway,type}=data
     
      this.setState({name,desc,price,path,stock,putaway,value:type})
-     console.log(this.state.name)
+    //  console.log(this.state.name)
      this.Classifyfind()
    }
    goodsUpdate=async(_id,payload)=>{
-    console.log(payload)
+    // console.log(payload)
     let result=await api.goodsUpdate(_id,payload)
     if(result.err == 0){
       message.success('更新成功')
@@ -38,7 +38,7 @@ class Goods extends Component {
    }
    GoodsImgUpload=async(payload)=>{
     let file=this.refs.img.files[0]
-    console.log(file)
+    // console.log(file)
     let {size,type}=file
     if(size>1000000){
      return  message.warning('图片尺寸超过1兆')
@@ -53,11 +53,11 @@ class Goods extends Component {
     let {err,msg,path}=await api.imgupload(formdate)
     
     this.setState({path})
-    console.log(path)
+    // console.log(path)
     // console.log(result)
   }
   onChange = value => {
-    console.log(value);
+    // console.log(value);
     this.setState({ value });
   }
   Classifyfind=async()=>{
@@ -105,7 +105,7 @@ class Goods extends Component {
           <span>商品状态:</span>
          <select value={putaway} onChange={(e)=>{
               this.setState({putaway:e.target.value})
-              console.log(e.target.value)
+              // console.log(e.target.value)
             }}>
               <option value='下架'>下架</option>
               <option value='未上架'>未上架</option>

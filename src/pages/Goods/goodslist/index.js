@@ -3,6 +3,7 @@ import api from '../../../api/goods';
 import style from './index.module.less'
 import { Card, Table,Button,Modal,Popconfirm ,Input,Pagination, message} from 'antd';
 import { SearchOutlined ,PlusCircleTwoTone} from '@ant-design/icons';
+import XLSX from 'xlsx'
 class Goods extends Component {
   state = { 
     data:[],
@@ -15,7 +16,8 @@ class Goods extends Component {
     type:false,
     typeValue:'',
     dataSource:[],
-    columns:[ {title: '_id',dataIndex: '_id',key: '_id',width:180,fixed:'left'},
+    columns:[ 
+         {title: '',key: '_id',width:0},
     {title: '名称',dataIndex: 'name',key: 'name',width:120},
     {title: '描述',dataIndex: 'desc',key: 'desc',width:180},
     {title: '价格',dataIndex: 'price',key: 'price',width:80},
@@ -25,20 +27,16 @@ class Goods extends Component {
     {title: '库存',dataIndex: 'stock',key: 'stock',width:80},
     {title: '发布状态',dataIndex: 'putaway',key: 'putaway',width:120},
     {title: '类型',key:'type',width:120,render:(h)=>{
-      console.log(h)
       let keyFrist = h.type.split('-')[0] - 1
       let keylast = h.type.split('-')[1] -1 
-      // console.log(this.state.data.result[0].childern[1].header)/
-      // console.log(this.state.data.result[keyFrist].childern[keylast].header)
       let str = this.state.data.result[keyFrist].childern[keylast].header
       return <span>{str}</span>
     }},
-    {title: '操作',key: 'action',width:120,fixed:'right',fixed:'right',render:(recode)=>{
+    {title: '操作',key: 'action',width:120,fixed:'right',render:(recode)=>{
       return(
         <div>
           <Popconfirm title='你确定要删除该商品嘛?'
           onConfirm={()=>{
-            // console.log(recode._id)
             this.delList(recode._id)
             if(this.state.now===1){
               this.renderListByPage()
@@ -58,7 +56,6 @@ class Goods extends Component {
           <Button type='primary' size='small' onClick={()=>{
         
            this.props.history.push('/box/goodsupdate?'+recode._id)
-           console.log(this)
           }}>修改</Button>
         </div>
       )
@@ -69,7 +66,6 @@ class Goods extends Component {
   //  this.renderList()
   let result = await api.classifygetinfo()
   await this.setState({data:result})
-  console.log(this.state.data)
    this.renderListByPage()
    }
    //分页查询方法
@@ -99,18 +95,14 @@ class Goods extends Component {
       this.setState({visible:true})
     }
     let {page,pageSize}  = this.state
-    // console.log(this.state.searchValue)
     let result = await api.goodsbykw(kw,page,pageSize)
     let count=result.allCount
     let {err,msg,list}=result
-    
     this.setState({dataSource:list,count,now:2})  
-    // console.log(this.state.dataSource)
    }
    hideModal=()=>{
      this.setState({visible:false})
      this.setState({type:false})
-    //  console.log(this)
    }
    //商品类别查询
    GoodsfindByType=async(type)=>{
@@ -120,7 +112,6 @@ class Goods extends Component {
     this.setState({type:false})
     let {page,pageSize}  = this.state
     let result=await api.goodsbytype(type,page,pageSize)
-    console.log(result)
     let {err,msg,list}=result
     let data=list.result
     let count=list.allCount
@@ -130,8 +121,30 @@ class Goods extends Component {
     this.setState({dataSource:data,count,now:3}) 
 
    }
-   //图片上传
-   
+   //到处全部商品
+    exportAll=async()=>{
+      let thead=this.state.columns.map((item)=>{
+        return item.title
+      })
+      let {data}=await api.goodsbypage(1,10000)
+      // console.log(data)
+      let list = data.map((item)=>{
+      let arr = [] 
+      for (const key in item) {
+          delete item._id
+          // console.log(item._id)
+          arr.push(item[key])
+      }
+      return arr
+    })
+     let result=[thead,...list ]
+    //  console.log(result)
+     let sheet=XLSX.utils.aoa_to_sheet(result)
+     let  wb =XLSX.utils.book_new()
+     XLSX.utils.book_append_sheet(wb,sheet)
+     XLSX.writeFile(wb,'商品.xlsx')
+     
+   }
   render() { 
     let {dataSource,columns,page,pageSize,count} = this.state
     return ( 
@@ -158,6 +171,7 @@ class Goods extends Component {
     this.renderListByPage()
   }}
   >查询所有商品</Button>
+  <Button onClick={this.exportAll} type="primary">导出excel</Button>
  <span >
  pageSize:<input   value={this.state.pageSize} onChange={(e)=>{
     this.setState({pageSize:e.target.value},()=>{
@@ -203,7 +217,6 @@ class Goods extends Component {
          >
          <Input placeholder='请输入要搜索的商品类型' value={this.state.typeValue} onChange={(e)=>{
            this.setState({typeValue:e.target.value})
-          //  console.log(this.state.typeValue)
          }}></Input>
          </Modal>
              {/* 分页器 */}
@@ -211,9 +224,7 @@ class Goods extends Component {
             onChange={(page,pageSize)=>{
               //只要页码数发生改变就会触发          
               this.setState({page},()=>{
-                console.log(this.state.now)
                 if(this.state.now===1){
-                  console.log(page)
                   this.renderListByPage()
                 }else if(this.state.now===2){
                   this.GoodsfindByKw(this.state.searchValue)

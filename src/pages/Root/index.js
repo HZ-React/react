@@ -3,6 +3,8 @@ import { Card, Table ,Spin,Popconfirm,Button,message,Modal,notification,Input} f
 import { PlusCircleOutlined ,UserOutlined,LockOutlined} from '@ant-design/icons';
 import rootApi from '../../api/root.js'
 import style from './index.module.less'
+
+import XLSX from 'xlsx'
 class Root extends Component {
   state = { 
     dataSource:[],//表单里的值
@@ -15,7 +17,13 @@ class Root extends Component {
         title:'管理员',
         dataIndex:'us',
         key:'us',
-        width:'80%'
+        width:'40%'
+      },
+      {
+        title:'密码',
+        dataIndex:'ps',
+        key:'ps',
+        width:'40%'
       },
       {
         title:'操作',
@@ -103,7 +111,33 @@ class Root extends Component {
      this.setState({dataSource:result.data})
    }
 
-
+   exportAll=async(token)=>{//导出数据
+    //获取表头(管理员，操作)
+    let thead=this.state.columns.map((item)=>{return  item.title})
+    let Athead=thead.slice(0,2)
+    //获取要导出的数据（要发起请求获取数据）
+    let {data} =await rootApi.list(token)
+    let  ArrayData=data.map((item)=>{
+      let arr=[]
+      for (const key in item) {
+        arr.push(item[key]) 
+      }
+     return arr
+    }) 
+    let Adata=ArrayData.map(
+      item=>{return [item[1],item[2]]}
+      )
+    //讲数据合并成数组
+    let result=[Athead,...Adata]
+    //将表格的dom元素转化为excel的工作簿
+    let sheet =XLSX.utils.aoa_to_sheet(result)
+    //创建工作簿
+    let wb=XLSX.utils.book_new()
+    XLSX.utils.book_append_sheet(wb,sheet)
+    //将表格的工作簿导出为excel文件
+    XLSX.writeFile(wb, "管理员列表.xlsx");
+   }
+   
 
   render() { 
     let {dataSource,columns,spinning,visible} = this.state
@@ -113,6 +147,12 @@ class Root extends Component {
         <Button type="primary" icon={<PlusCircleOutlined />} onClick={()=>{
           this.setState({visible:true})
         }}>添加</Button>
+
+
+        {/* 导出全部数据 */}
+        <Button type='primary' onClick={this.exportAll}>导出数据</Button>
+
+
        <Spin spinning={spinning}>
         <Table dataSource={dataSource} columns={columns} pagination={{ pageSize:3}} rowKey='_id'/>
         </Spin>
