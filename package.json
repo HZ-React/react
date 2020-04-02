@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "homepage": "../wangyi",
   "private": true,
+  "homepage":"../wangyi",
   "dependencies": {
     "@babel/core": "7.9.0",
     "@svgr/webpack": "4.3.3",
