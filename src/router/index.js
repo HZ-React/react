@@ -42,13 +42,13 @@ class Router extends Component {
 
                <Route path="/box/goodskind" component={Sort}></Route>
                <Route path="/box/advertisement" component={Ad}></Route>
-               {/* <Redirect from="/box" to="/box/root" /> */}
+               <Redirect from="/box" to="/box/root" />
             </Box>
           )
         }}>
           
         </Route>
-        {/* <Redirect from="/" to="/login" /> */}
+        <Redirect from="/" to="/login" />
       </HashRouter>
      );
   }

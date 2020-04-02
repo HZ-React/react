@@ -26,7 +26,7 @@ const ForkTsCheckerWebpackPlugin = require('react-dev-utils/ForkTsCheckerWebpack
 const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
 const CompressionPlugin = require("compression-webpack-plugin")
 const postcssNormalize = require('postcss-normalize');
-
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const appPackageJson = require(paths.appPackageJson);
 
 // Source maps are resource heavy and can cause out of memory issue for large source files.
@@ -509,6 +509,19 @@ module.exports = function(webpackEnv) {
       ],
     },
     plugins: [
+      // 取消控制台console
+        new UglifyJsPlugin(
+          {
+            uglifyOptions: {
+              warnings: false,
+              compress: {
+                drop_debugger: true,
+                drop_console: true
+              }
+            }
+          }
+      ),
+      // gzip压缩
       new CompressionPlugin({
         asset: "[path].gz[query]",
         algorithm: "gzip",
