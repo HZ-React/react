@@ -1,10 +1,9 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { Card,Button,Input, message} from 'antd';
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import actionsCerator from '../../store/actionsCerator';
 import Goods from '../../api/goods'
-import Root from '../../api/root'
 import saveMySetting from '../../api/mySetting'
 class User extends Component {
    constructor(props){
@@ -40,7 +39,7 @@ class User extends Component {
    avator=()=>{
       let file = this.refs.img.files[0]
       if(!file){return false}
-      let data = new FormData
+      let data = new FormData()
       data.append('hehe',file)
       Goods.imgupload(data).then(res=>{
          let {path} = res
@@ -49,7 +48,7 @@ class User extends Component {
       })
    }
    render() { 
-      let {avatorUrl,us,email} = this.state
+      let {us,email} = this.state
       return ( 
             <Card title="设置">
                <div>

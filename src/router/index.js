@@ -1,20 +1,20 @@
 import React, { Component } from 'react';
 import {Route,HashRouter,Redirect} from 'react-router-dom'
-import Box from '../pages/Box'
-import Login from '../pages/Login'
-import Root from '../pages/Root'
+import loading from '../utils/loadLabe'
 
-import GoodsList from '../pages/Goods/goodslist'
-import Goodsupdate from '../pages/Goods/goodsupdate'
-import Goodsadd from '../pages/Goods/goodsadd'
-import User from '../pages/User'
-
-import Sort from '../pages/Classify/Sort/sort'//商品分类
-import ClssifyAdd from '../pages/Classify/ClassifyAdd/index.js'//商品分类添加
-import ClassifyUpdate from '../pages/Classify/ClssifyUpdate/index.js'//商品分类修改
-import Ad from '../pages/Ad/index'//广告管理
-
-import Mysetting from '../pages/Mysetting'
+// 路由懒加载
+const Box = loading(()=>import('../pages/Box'))
+const Login = loading(()=>import('../pages/Login'))
+const Root = loading(()=>import('../pages/Root'))
+const Goodsupdate = loading(()=>import('../pages/Goods/goodsupdate'))
+const Goodsadd = loading(()=>import('../pages/Goods/goodsadd'))
+const User = loading(()=>import('../pages/User'))
+const ClassifyUpdate = loading(()=>import('../pages/Classify/ClssifyUpdate/index.js'))
+const ClssifyAdd = loading(()=>import('../pages/Classify/ClassifyAdd/index.js'))
+const Sort = loading(()=>import('../pages/Classify/Sort/sort'))
+const Ad = loading(()=>import('../pages/Ad/index'))
+const Mysetting = loading(()=>import('../pages/Mysetting'))
+const GoodsList = loading(()=>import('../pages/Goods/goodslist'))
 
 class Router extends Component {
   state = {  }
@@ -42,12 +42,13 @@ class Router extends Component {
 
                <Route path="/box/goodskind" component={Sort}></Route>
                <Route path="/box/advertisement" component={Ad}></Route>
+               <Redirect from="/box" to="/box/root" />
             </Box>
           )
         }}>
           
         </Route>
-        {/* <Redirect from="/" to="/login" /> */}
+        <Redirect from="/" to="/login" />
       </HashRouter>
      );
   }
