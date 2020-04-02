@@ -12,7 +12,6 @@ class ClassifyUpdate extends Component{
     }
     update=async(payload)=>{//修改方法
         let result=await classifyApi.update(payload)
-        console.log(result)
         switch(result.code){
             case -998:
                 notification.error({description:'权限不足',message:'错误',duration:2})
@@ -29,13 +28,11 @@ class ClassifyUpdate extends Component{
         }
     }
     componentDidMount(){
-        // console.log(this.props.history.location.state._id)//获取到这条数据的id
         let token=localStorage.getItem("userToken")
         let _id=this.props.history.location.state._id//传过来的id
         let Cindex=this.props.history.location.state.Cindex//传过来的key后一位
         let header=this.props.history.location.state.header//传过来的header
         classifyApi.find({_id,token}).then(result=>{
-            console.log(result)
             let key=`${result.data.key}-${Cindex}`
             this.setState({key,header})//设定修改时的默认header和key内容
         })
@@ -61,8 +58,6 @@ class ClassifyUpdate extends Component{
                     classifyApi.find({_id,token})
                     .then(result=>{
                         let data=result.data.childern.splice(Cindex,1,{header:header,key:`${result.data.key}-${Cindex+1}`})
-                        // console.log('childern',data)
-                        // console.log('修改后的数据',result)
                         this.update(result.data)
                         this.props.history.replace('/box/classifylist')
                     })

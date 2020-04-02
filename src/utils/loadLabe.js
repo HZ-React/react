@@ -10,7 +10,7 @@ const loadingComponent =()=>{
 
 
 export default (component)=>{
-  Loadable({
+  return Loadable({
       loader:component,
       loading:loadingComponent
   });
