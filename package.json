@@ -72,7 +72,7 @@
   },
   "scripts": {
     "start": "node scripts/start.js",
-    "build": "node scripts/build.js",
+    "build": "cross-env GENERATE_SOURCEMAP=false node scripts/build.js",
     "test": "node scripts/test.js"
   },
   "eslintConfig": {
@@ -147,6 +147,7 @@
   },
   "devDependencies": {
     "compression-webpack-plugin": "^1.1.11",
+    "cross-env": "^7.0.2",
     "less": "^2.7.3",
     "less-loader": "^5.0.0",
     "uglifyjs-webpack-plugin": "^2.2.0"
