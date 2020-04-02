@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, Table,Button, message ,TreeSelect} from 'antd';
+import { Card,Button, message ,TreeSelect} from 'antd';
 import style from  './index.module.less';
 import api from '../../../api/goods';
 const { TreeNode } = TreeSelect;
@@ -17,13 +17,13 @@ class Goods extends Component {
    }
    addList=async(payload)=>{
     // console.log(payload)
-    console.log(this.state.path)
+    // console.log(this.state.path)
     if(!this.state.path){
      return message.warning('请先上传图片')
     }
     let result=await api.goodsAddList(payload)
-    let {err,msg}=result
-    if(err==-1){ message.error('商品添加失败，每一项都为必填项')}
+    let {err}=result
+    if(err===-1){ message.error('商品添加失败，每一项都为必填项')}
     else{
       message.success('商品添加成功')
      this.props.history.push('/box/goodslist')
@@ -44,7 +44,7 @@ class Goods extends Component {
     }
     let formdate=new FormData()
     formdate.append('hehe',file)
-    let {err,msg,path}=await api.imgupload(formdate)
+    let {path}=await api.imgupload(formdate)
     
     this.setState({path})
     // console.log(path)
@@ -77,7 +77,7 @@ class Goods extends Component {
 }
   Classifyfind=async()=>{
     let data=await api.classifygetinfo()
-    let {msg,code,result}=data
+    let {result}=data
     this.setState({data:result})
   }
   render() { 

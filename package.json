@@ -1,6 +1,7 @@
 {
   "name": "project",
   "version": "0.1.0",
+  "homepage": "../wangyi",
   "private": true,
   "dependencies": {
     "@babel/core": "7.9.0",
@@ -66,7 +67,8 @@
     "webpack": "4.42.0",
     "webpack-dev-server": "3.10.3",
     "webpack-manifest-plugin": "2.2.0",
-    "workbox-webpack-plugin": "4.3.1"
+    "workbox-webpack-plugin": "4.3.1",
+    "xlsx": "^0.15.6"
   },
   "scripts": {
     "start": "node scripts/start.js",
